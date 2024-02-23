@@ -1,14 +1,8 @@
 {
     "name": "cserepesmark/laravel-csomagpiac",
     "description": "Csomagpiac API integration for Laravel",
-    "keywords": [
-        "cserepesmark",
-        "csomagpiac",
-        "csomagpiac-api",
-        "laravel"
-    ],
+    "type": "library",
     "license": "MIT",
-    "homepage": "https://github.com/cserepesmark/laravel-csomagpiac",
     "authors": [
         {
             "name": "Cserepes Márk",
@@ -16,19 +10,26 @@
             "role": "Developer"
         }
     ],
+    "keywords": [
+        "cserepesmark",
+        "csomagpiac",
+        "csomagpiac-api",
+        "laravel"
+    ],
+    "homepage": "https://github.com/cserepesmark/laravel-csomagpiac",
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "laravel/framework": "^10.10"
     },
     "autoload": {
         "psr-4": {
             "Cserepesmark\\LaravelCsomagpiac\\": "src"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true,
-        "preferred-install": "dist"
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -36,8 +37,5 @@
                 "Cserepesmark\\LaravelCsomagpiac\\CsomagpiacServiceProvider.php"
             ]
         }
-    },
-    "scripts": {
-
     }
 }
