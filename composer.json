@@ -3,7 +3,6 @@
     "description": "Csomagpiac API integration for Laravel",
     "type": "library",
     "license": "MIT",
-    "version": "0.1.0",
     "authors": [
         {
             "name": "Cserepes Márk",
