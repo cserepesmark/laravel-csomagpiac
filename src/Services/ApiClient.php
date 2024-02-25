@@ -10,25 +10,33 @@ class ApiClient
     /**
      * @throws CsomagpiacResponseException
      */
-    public function post($uri, $token, $data = [])
+    protected function request($method, $uri, $token, $data = [])
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/vnd.api+json',
             'Accept' => 'application/vnd.api+json',
             'Authorization' => "Bearer $token"
-        ])->post(CsomagpiacService::getBaseUrl() . $uri, $data);
-
-        $content = $response->json();
+        ])->$method(CsomagpiacService::getBaseUrl() . $uri, $data);
 
         if (!$response->successful()) {
-             throw new CsomagpiacResponseException(
-                 $content['message'],
-                 code: $content['status'],
-                 errors: $content['errors']
-             );
+            $content = $response->json();
+            throw new CsomagpiacResponseException(
+                $content['message'],
+                code: $content['status'],
+                errors: $content['errors'] ?? (empty($content['error']) ? [] : [$content['error']])
+            );
         }
 
-        return $content;
+        return $response;
+    }
+
+    /**
+     * @throws CsomagpiacResponseException
+     */
+    public function post($uri, $token, $data = [])
+    {
+        return $this->request('post', $uri, $token, $data)
+            ->json();
     }
 
     /**
@@ -36,23 +44,8 @@ class ApiClient
      */
     public function get($uri, $token, $data = [])
     {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/vnd.api+json',
-            'Accept' => 'application/vnd.api+json',
-            'Authorization' => "Bearer $token"
-        ])->get(CsomagpiacService::getBaseUrl() . $uri, $data);
-
-        $content = $response->json();
-
-        if (!$response->successful()) {
-            throw new CsomagpiacResponseException(
-                $content['message'],
-                code: $content['status'],
-                errors: $content['errors']
-            );
-        }
-
-        return $content;
+        return $this->request('get', $uri, $token, $data)
+            ->json();
     }
 
     /**
@@ -60,23 +53,8 @@ class ApiClient
      */
     public function getFile($uri, $token, $data = [])
     {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/vnd.api+json',
-            'Accept' => 'application/vnd.api+json',
-            'Authorization' => "Bearer $token"
-        ])->get(CsomagpiacService::getBaseUrl() . $uri, $data);
-
-        $content = $response->json();
-
-        if (!$response->successful()) {
-            throw new CsomagpiacResponseException(
-                $content['message'],
-                code: $content['status'],
-                errors: $content['errors']
-            );
-        }
-
-        return $response->body();
+        return $this->request('get', $uri, $token, $data)
+            ->body();
     }
 
     /**
@@ -84,22 +62,7 @@ class ApiClient
      */
     public function delete($uri, $token)
     {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/vnd.api+json',
-            'Accept' => 'application/vnd.api+json',
-            'Authorization' => "Bearer $token"
-        ])->delete(CsomagpiacService::getBaseUrl() . $uri);
-
-        $content = $response->json();
-
-        if (!$response->successful()) {
-            throw new CsomagpiacResponseException(
-                $content['message'],
-                code: $content['status'],
-                errors: $content['errors']
-            );
-        }
-
-        return $content;
+        return $this->request('delete', $uri, $token)
+            ->json();
     }
 }
