@@ -21,35 +21,6 @@ class ShipmentService
      * @throws CsomagpiacValidationException
      * @throws CsomagpiacResponseException
      */
-    public function listShipments(array $data = [])
-    {
-        $validator = Validator::make($data, [
-            'page' => ['sometimes', 'integer', 'min:1'],
-            'countPerPage' => ['sometimes', 'integer'],
-            'startTimestamp' => ['sometimes', 'integer', 'before_or_equal:endTimestamp'],
-            'endTimestamp' => ['required_if:startTimestamp,!=,null', 'integer', 'after:startTimestamp', function ($attribute, $value, $fail) use ($data) {
-                $start = Carbon::parse($data['startTimestamp'] ?? null);
-                $end = Carbon::parse($data['endTimestamp']);
-                if ($end->diffInHours($start) > 24) {
-                    $fail('Az ' . $attribute . ' nem lehet több, mint 24 órával a kezdő időpont után.');
-                }
-            }],
-        ]);
-
-        if ($validator->fails()) {
-            throw new CsomagpiacValidationException(
-                'List shipment validation error',
-                errors: $validator->errors()->toArray()
-            );
-        }
-
-        return $this->csomagpiacService->listShipments($data);
-    }
-
-    /**
-     * @throws CsomagpiacValidationException
-     * @throws CsomagpiacResponseException
-     */
     public function createShipment(array $data)
     {
         $validator = Validator::make($data, [
@@ -108,6 +79,57 @@ class ShipmentService
     }
 
     /**
+     * @throws CsomagpiacResponseException
+     * @throws CsomagpiacValidationException
+     */
+    public function deleteShipment(array $data)
+    {
+        $validator = Validator::make($data, [
+            'identifier' => ['required', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            throw new CsomagpiacValidationException(
+                'Delete shipment status validation error',
+                errors: $validator->errors()->toArray()
+            );
+        }
+
+        return $this->csomagpiacService->deleteShipment(
+            identifier: $validator->getValue('identifier')
+        );
+    }
+
+    /**
+     * @throws CsomagpiacValidationException
+     * @throws CsomagpiacResponseException
+     */
+    public function listShipments(array $data = [])
+    {
+        $validator = Validator::make($data, [
+            'page' => ['sometimes', 'integer', 'min:1'],
+            'countPerPage' => ['sometimes', 'integer'],
+            'startTimestamp' => ['sometimes', 'integer', 'before_or_equal:endTimestamp'],
+            'endTimestamp' => ['required_if:startTimestamp,!=,null', 'integer', 'after:startTimestamp', function ($attribute, $value, $fail) use ($data) {
+                $start = Carbon::parse($data['startTimestamp'] ?? null);
+                $end = Carbon::parse($data['endTimestamp']);
+                if ($end->diffInHours($start) > 24) {
+                    $fail('Az ' . $attribute . ' nem lehet több, mint 24 órával a kezdő időpont után.');
+                }
+            }],
+        ]);
+
+        if ($validator->fails()) {
+            throw new CsomagpiacValidationException(
+                'List shipment validation error',
+                errors: $validator->errors()->toArray()
+            );
+        }
+
+        return $this->csomagpiacService->listShipments($data);
+    }
+
+    /**
      * @throws CsomagpiacValidationException
      * @throws CsomagpiacResponseException
      */
@@ -157,5 +179,30 @@ class ShipmentService
     public function listAllStatuses()
     {
         return $this->csomagpiacService->listAllStatuses();
+    }
+
+    public function listPickupPoints()
+    {
+        return $this->csomagpiacService->listPickupPoints();
+    }
+
+    public function listLocations()
+    {
+        return $this->csomagpiacService->listLocations();
+    }
+
+    public function listServices()
+    {
+        return $this->csomagpiacService->listServices();
+    }
+
+    public function listLocationTypes()
+    {
+        return $this->csomagpiacService->listLocationTypes();
+    }
+
+    public function listHandlers()
+    {
+        return $this->csomagpiacService->listHandlers();
     }
 }

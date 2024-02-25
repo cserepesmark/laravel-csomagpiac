@@ -3,6 +3,7 @@
     "description": "Csomagpiac API integration for Laravel",
     "type": "library",
     "license": "MIT",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Cserepes Márk",
@@ -19,22 +20,18 @@
     "homepage": "https://github.com/cserepesmark/laravel-csomagpiac",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^10.10"
+        "laravel/framework": "^10"
     },
     "autoload": {
         "psr-4": {
             "Cserepesmark\\LaravelCsomagpiac\\": "src"
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "config": {
-        "sort-packages": true
-    },
+    "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
-                "Cserepesmark\\LaravelCsomagpiac\\CsomagpiacServiceProvider.php"
+                "Cserepesmark\\LaravelCsomagpiac\\CsomagpiacServiceProvider"
             ]
         }
     }

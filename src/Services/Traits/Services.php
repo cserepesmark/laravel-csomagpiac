@@ -9,7 +9,7 @@ trait Services
      *
      * @return array|mixed
      */
-    public function listClientServices()
+    public function listServices()
     {
         $token = $this->authenticate();
 

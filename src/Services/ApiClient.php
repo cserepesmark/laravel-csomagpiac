@@ -78,4 +78,28 @@ class ApiClient
 
         return $response->body();
     }
+
+    /**
+     * @throws CsomagpiacResponseException
+     */
+    public function delete($uri, $token)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/vnd.api+json',
+            'Accept' => 'application/vnd.api+json',
+            'Authorization' => "Bearer $token"
+        ])->delete(CsomagpiacService::getBaseUrl() . $uri);
+
+        $content = $response->json();
+
+        if (!$response->successful()) {
+            throw new CsomagpiacResponseException(
+                $content['message'],
+                code: $content['status'],
+                errors: $content['errors']
+            );
+        }
+
+        return $content;
+    }
 }

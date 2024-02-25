@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ListShipmentsExample
 {
-    public static function run($data)
+    public static function run($data = [])
     {
         return (new ShipmentService)
             ->listShipments($data);

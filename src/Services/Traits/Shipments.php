@@ -19,10 +19,12 @@ trait Shipments
         $data['page'] = $data['page'] ?? 1;
         $data['countPerPage'] = $data['countPerPage'] ?? 25;
 
-        if (empty($data['startTimestamp']) || $data['endTimestamp']) {
+        if (empty($data['startTimestamp']) || empty($data['endTimestamp'])) {
             $data['startTimestamp'] = now()->subHours(24)->timestamp;
             $data['endTimestamp'] = now()->timestamp;
         }
+
+        dump($data);
 
         return $this->apiClient->get('shipment/list', $token, $data);
     }
@@ -87,5 +89,15 @@ trait Shipments
         $token = $this->authenticate();
 
         return $this->apiClient->getFile("shipment/download/$identifier/$format", $token);
+    }
+
+    /**
+     * @throws CsomagpiacResponseException
+     */
+    public function deleteShipment($identifier)
+    {
+        $token = $this->authenticate();
+
+        return $this->apiClient->delete("shipment/delete/$identifier", $token);
     }
 }
