@@ -16,17 +16,19 @@ class TokenManager
         }
 
         return Cache::remember(self::TOKEN_CACHE_KEY, 3600, function () {
-            $response = Http::post(CsomagpiacService::getBaseUrl() . 'authenticate', [
-                'username' => config('services.csomagpiac.username'),
-                'password' => config('services.csomagpiac.password')
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/vnd.api+json',
+                'Accept' => 'application/vnd.api+json',
+            ])->post(CsomagpiacService::getBaseUrl() . 'authenticate', [
+                'username' => config('csomagpiac.username'),
+                'password' => config('csomagpiac.password')
             ]);
 
             if ($response->successful()) {
-                $token = $response->json()['token'];
-                return $token;
-            } else {
-                // Handle errors, maybe throw an exception
+                return $response->json()['token'];
             }
+
+            return false;
         });
     }
 }
