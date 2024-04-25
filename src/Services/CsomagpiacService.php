@@ -3,12 +3,14 @@
 namespace Cserepesmark\LaravelCsomagpiac\Services;
 
 use Cserepesmark\LaravelCsomagpiac\Services\Traits\Locations;
+use Cserepesmark\LaravelCsomagpiac\Services\Traits\MplClose;
 use Cserepesmark\LaravelCsomagpiac\Services\Traits\Services;
 use Cserepesmark\LaravelCsomagpiac\Services\Traits\Shipments;
 
 class CsomagpiacService
 {
     use Locations;
+    use MplClose;
     use Services;
     use Shipments;
 

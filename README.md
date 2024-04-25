@@ -65,6 +65,14 @@ See `/examples` folder
 | listShipmentHistories  | shipment history        | shipment/history  |
 | listAllStatuses        | statuses                | shipment/statuses |
 
+### MPL Close
+
+| ShipmentService method | API Name      | API Endpoint  |
+|------------------------|---------------|---------------|
+| handleMplClose         | mplClose      | mplclose      |
+| listMplCloses          | mplClosesList | mplcloseslist |
+| downloadMplClose       | mplClosePdf   | mplclosepdf   |
+
 ### Other
 | ShipmentService method | API Name     | API Endpoint    |
 |------------------------|--------------|-----------------|

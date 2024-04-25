@@ -3,7 +3,6 @@
 namespace Cserepesmark\LaravelCsomagpiac\Examples;
 
 use Cserepesmark\LaravelCsomagpiac\Services\ShipmentService;
-use Illuminate\Support\Facades\Storage;
 
 class ListShipmentsExample
 {

@@ -7,7 +7,7 @@ trait Locations
     /**
      * Az űgyfél előre definiált felvételi pontjainak a lekérdezése.
      *
-     * * @return array|mixed
+     * @return array|mixed
      */
     public function listPickupPoints()
     {
@@ -39,15 +39,18 @@ trait Locations
      *
      * @return array|mixed
      */
-    public function listLocations()
+    public function listLocations($page = 1, $countPerPage = 25, $typeId = null)
     {
         $token = $this->authenticate();
 
         $data = [
-            'page' => 1,
-            'countPerPage' => 25,
-            // 'typeId' => 7 // optional
+            'page' => $page,
+            'countPerPage' => $countPerPage,
         ];
+
+        if ($typeId) {
+            $data['typeId'] = $typeId;
+        }
 
         return $this->apiClient->get('locations/list', $token, $data);
     }

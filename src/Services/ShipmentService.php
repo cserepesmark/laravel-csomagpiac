@@ -205,4 +205,70 @@ class ShipmentService
     {
         return $this->csomagpiacService->listHandlers();
     }
+
+    /**
+     * @throws CsomagpiacResponseException
+     * @throws CsomagpiacValidationException
+     */
+    public function handleMplClose(array $data = [])
+    {
+        $validator = Validator::make($data, [
+            'fromData' => ['nullable', 'date_format:Y-m-d'],
+            'toData' => ['nullable', 'date_format:Y-m-d'],
+            'identifiers' => ['nullable', 'array'],
+            'identifiers.*' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            throw new CsomagpiacValidationException(
+                'Handle MPL close validation error',
+                errors: $validator->errors()->toArray()
+            );
+        }
+
+        return $this->csomagpiacService->handleMplClose($data);
+    }
+
+    /**
+     * @throws CsomagpiacResponseException
+     * @throws CsomagpiacValidationException
+     */
+    public function listMplCloses(array $data = [])
+    {
+        $validator = Validator::make($data, [
+            'page' => ['sometimes', 'integer', 'min:1'],
+            'countPerPage' => ['sometimes', 'integer'],
+        ]);
+
+        if ($validator->fails()) {
+            throw new CsomagpiacValidationException(
+                'List MPL closes validation error',
+                errors: $validator->errors()->toArray()
+            );
+        }
+
+        return $this->csomagpiacService->listMplCloses($data);
+    }
+
+    /**
+     * @throws CsomagpiacValidationException
+     * @throws CsomagpiacResponseException
+     */
+    public function downloadMplClose(array $data)
+    {
+        $validator = Validator::make($data, [
+            'identifier' => ['required', 'integer'],
+        ]);
+
+        if ($validator->fails()) {
+            throw new CsomagpiacValidationException(
+                'Download MPL close validation error',
+                errors: $validator->errors()->toArray()
+            );
+        }
+
+        return $this->csomagpiacService->downloadMplClose(
+            identifier: $validator->getValue('identifier')
+        );
+    }
 }

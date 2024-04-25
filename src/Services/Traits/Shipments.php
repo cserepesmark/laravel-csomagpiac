@@ -24,8 +24,6 @@ trait Shipments
             $data['endTimestamp'] = now()->timestamp;
         }
 
-        dump($data);
-
         return $this->apiClient->get('shipment/list', $token, $data);
     }
 
