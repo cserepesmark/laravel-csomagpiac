@@ -17,7 +17,7 @@ trait MplClose
     {
         $token = $this->authenticate();
 
-        return $this->apiClient->post('mplcloseslist', $token, $data);
+        return $this->apiClient->post('mplclose', $token, $data);
     }
 
     /**
