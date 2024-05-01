@@ -3,6 +3,7 @@
 namespace Cserepesmark\LaravelCsomagpiac\Services;
 
 use Cserepesmark\LaravelCsomagpiac\Exceptions\CsomagpiacResponseException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class ApiClient
@@ -19,6 +20,10 @@ class ApiClient
         ])->$method(CsomagpiacService::getBaseUrl() . $uri, $data);
 
         if (!$response->successful()) {
+            if ($response->status() === 401) {
+                Cache::forget(TokenManager::TOKEN_CACHE_KEY);
+            }
+
             $content = $response->json();
             throw new CsomagpiacResponseException(
                 $content['message'],
